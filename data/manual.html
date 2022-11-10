@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LAB 11-12 | Brazo Robot</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="index.css">
+  </head>
+  <body>
+    <!--Titulo y conexión WiFi-->
+    <header>
+      <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/logo/myn.png" alt="logo">
+      <h1 style="z-index: 100; background-color:white;">
+        BRAZO ROBOT <img style="margin-top: -4px;" src="https://raw.githubusercontent.com/EllieT7/Lab11_Brazo/main/brazito.png" alt=""></h1>
+      <div id="contenedor" style="display: grid;position: absolute; top: 10px;right: 0; width: 200px;">
+        <img id="imgPotencia" src="" alt="">
+        <p id="valorPotencia">%RSSI%</p>
+      </div>
+    </header>
+    <div style="height: 120px;"></div>
+
+    <!--Menú de navegacion-->
+    <div class="menu_superior" style="margin: 0px 60px;">
+      <nav>
+        <ul>
+          <li class="izquierda"><a href="index.html">Modo Test</a></li>
+          <li class="izquierda"><a href="manual.html">Modo Manual</a></li>
+          <li class="izquierda"><a href="automatico.html">Modo Automatico</a></li>
+          <li class="izquierda"><a href="joystick.html">Joystick</a></li>
+        </ul>
+      </nav>
+      <hr>
+    </div>
+    <div style="height: 25px;"></div>
+
+    <!--Contenido-->
+    <div style="display: grid; grid-template-columns: 24% 24%; padding: 5px; border: 1px rgb(255, 255, 255) solid;">
+      <div style="justify-content: center; align-items: center;">
+	      <form action="/SLIDER5" method="post">
+          <h2>Servo 1</h2>
+		      Slider:<br>
+          <img style="width: 80px;" src="https://raw.githubusercontent.com/EllieT7/Lab11_Brazo/main/servo.png" alt="">
+          <br><br>
+		      <input type="range" id="pwmInput1" name="pwmValue1" min="1638" max="7864" value="%PWM1%" onchange="updateTextInput(this.value,1);" >
+		      <input type="number" id="textInput1" onchange="updateTextInput(this.value,1);" value="%PWM1%" style="width:50px">
+		      <label for="pwmInput1">PWM</label><br>
+          <h2>Servo 2</h2>
+		      Slider:<br>
+          <img style="width: 80px;" src="https://raw.githubusercontent.com/EllieT7/Lab11_Brazo/main/servo.png" alt="">
+          <br><br>
+		      <input type="range" id="pwmInput2" name="pwmValue2" min="1638" max="7864" value="%PWM2%" onchange="updateTextInput(this.value,2);" >
+		      <input type="number" id="textInput2" onchange="updateTextInput(this.value,2);" value="%PWM2%" style="width:50px">
+		      <label for="pwmInput2">PWM</label><br>
+          <h2>Servo 3</h2>
+      		Slider:<br>
+          <img style="width: 80px;" src="https://raw.githubusercontent.com/EllieT7/Lab11_Brazo/main/servo.png" alt="">
+          <br><br>
+		      <input type="range" id="pwmInput3" name="pwmValue3" min="1638" max="7864" value="%PWM3%" onchange="updateTextInput(this.value,3);" >
+		      <input type="number" id="textInput3" onchange="updateTextInput(this.value,3);" value="%PWM3%" style="width:50px">
+		      <label for="pwmInput3">PWM</label><br>
+          <h2>Servo 4</h2>
+          Slider:<br>
+          <img style="width: 80px;" src="https://raw.githubusercontent.com/EllieT7/Lab11_Brazo/main/servo.png" alt="">
+          <br><br>
+          <input type="range" id="pwmInput4" name="pwmValue4" min="1638" max="7864" value="%PWM4%" onchange="updateTextInput(this.value,4);" >
+          <input type="number" id="textInput4" onchange="updateTextInput(this.value,4);" value="%PWM4%" style="width:50px">
+          <label for="pwmInput4">PWM</label><br>
+          <button type="submit" value="Submit" style="width: 250px;">Enviar</button>
+      	</form>
+      </div>
+    </div>
+    <br><br>
+
+    <!--Tabla de información de la conexión-->
+    <div>
+      <center>
+        <h1>Información de la conexión</h1> 
+        <div style='width: 90vw; transition: 1s;' class='ampliacion'>
+          <table class="styled-table">
+            <thead>
+              <tr><th style=' padding: 20px;'>IP Local</th><th style=' padding: 20px; '>Host Name</th><th style=' padding: 20px; '>Status</th><th style=' padding: 20px; '>SSID</th><th style=' padding: 20px; '>PSK</th><th style=' padding: 20px; '>BSSID</th><th style=' padding: 20px; '>RSSI</th></tr>
+            </thead>
+            <tr>
+              <td style='padding: 20px;text-align: center;'class='changecolor'>%IP%</td>
+              <td style='padding: 20px;text-align: center;'class='changecolor'>%HOSTNAME%</td>
+              <td style='padding: 20px;text-align: center;'class='changecolor'>%STATUS%</td>
+              <td style='padding: 20px;text-align: center;'class='changecolor'>%SSID%</td>
+              <td style='padding: 20px;text-align: center;'class='changecolor'>%PSK%</td>
+              <td style='padding: 20px;text-align: center;'class='changecolor'>%BSSID%</td>
+              <td style='padding: 20px;text-align: center;'class='changecolor' id="valorRSSI">%RSSI%</td> 
+            </tr>
+          </table>
+        </div>
+      </center>
+    </div>
+    <br><br>
+
+    <!--Logo pinguino-->
+    <img id="piplup" src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/logo/piplup.png" alt="">
+    
+    <!--Pie de página-->
+    <footer>
+      @Copyright MYN 2022- All Right Reserved.
+    </footer>
+    <hr>
+    
+    <!-- Fotitos de los integrantes y su información -->
+    <center><h2>Integrantes:</h2></center>     
+    <div style="display: flex;">
+      <!-- Yamil -->
+      <div class="profile-card yamil" style="margin: 0 auto;">
+        <div class="img">
+          <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/fotos/yamilPFP.jpeg">
+        </div>
+        <div class="caption">
+          <h3>Yamil Barrientos</h3>
+          <p>Estudiante</p>
+        </div>
+      </div>
+      <!-- Mica -->
+      <div class="profile-card mica" style="margin: 0 auto;">
+        <div class="img">
+          <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/fotos/micaPFP.jpeg">
+        </div>
+        <div class="caption">
+          <h3>Micaela Gordillo</h3>
+          <p>Estudiante</p>
+        </div>
+      </div>
+      <!-- Nao -->
+      <div class="profile-card" style="margin: 0 auto;">
+        <div class="img">
+          <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/fotos/IMG_20210715_162333.jpg">
+        </div>
+        <div class="caption">
+          <h3>Naomi Tacachira</h3>
+          <p>Estudiante</p>
+        </div>
+      </div>
+    </div>
+    <!-- Espacios -->
+    <br><br><br><br>
+    <script>
+      function updateTextInput(val, id) {
+        console.log(val);
+        document.getElementById('pwmInput'+id).value = val; 
+        document.getElementById('textInput'+id).value = val; 
+      }
+      //Función para cambiar la imagen en base a la conexión WiFi/
+      function actualizarPotencia(){
+        var valor = parseInt(document.getElementById("valorPotencia").innerText);
+        if (valor >= (-40)) {
+            document.getElementById("imgPotencia").src = "https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/intensidad_wifi/wifi4.png";
+        } else if (valor <(-40) && valor >= (-50)) {
+            document.getElementById("imgPotencia").src = "https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/intensidad_wifi/wifi3.png";
+        } else if (valor < (-50) && valor >= (-60)){
+            document.getElementById("imgPotencia").src = "https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/intensidad_wifi/wifi2.png";
+        } else if (valor < (-60)){
+            document.getElementById("imgPotencia").src = "https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/intensidad_wifi/wifi1.png";
+        }
+      }
+      //Función para pedir el valor de la conexión WiFi - cada 10 segundos/
+      setInterval(function ( ) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("valorPotencia").innerText = this.responseText;
+            document.getElementById("valorRSSI").innerText = this.responseText;
+            actualizarPotencia();
+          }
+        };
+        xhttp.open("GET", "/RSSI", true);
+        xhttp.send();
+      }, 10000);
+    </script>
+  </body>
+</html>

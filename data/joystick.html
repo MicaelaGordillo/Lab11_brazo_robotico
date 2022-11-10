@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LAB 11 | Brazo Robot</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="index.css">
+  </head>
+  <body>
+    <!--Titulo y conexión WiFi-->
+    <header>
+      <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/logo/myn.png" alt="logo">
+      <h1 style="z-index: 100; background-color:white;">
+         BRAZO ROBOT <img style="margin-top: -4px;" src="https://raw.githubusercontent.com/EllieT7/Lab11_Brazo/main/brazito.png" alt=""></h1>
+      <div id="contenedor" style="display: grid;position: absolute; top: 10px;right: 0; width: 200px;">
+        <img id="imgPotencia" src="" alt="">
+        <p id="valorPotencia">%RSSI%</p>
+      </div>
+    </header>
+    <div style="height: 120px;"></div>
+
+    <!--Menú de navegacion-->
+    <div class="menu_superior" style="margin: 0px 60px;">
+        <nav>
+            <ul>
+                <li class="izquierda"><a href="index.html">Modo Test</a></li>
+                <li class="izquierda"><a href="manual.html">Modo Manual</a></li>
+                <li class="izquierda"><a href="automatico.html">Modo Automatico</a></li>
+                <li class="izquierda"><a href="joystick.html">Joystick</a></li>
+
+            </ul>
+        </nav>
+        <hr>
+    </div>
+    <div style="height: 25px;"></div>
+
+    <!--Contenido-->
+    <div id="container" style="hei">
+    </div>
+    <script src="./virtualjoystick.js"></script>
+		<script>
+			console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+	
+			var joystick	= new VirtualJoystick({
+				container	: document.getElementById('container'),
+				mouseSupport	: true,
+				limitStickTravel	: true,
+			});
+			joystick.addEventListener('touchStart', function(){
+				console.log('down')
+			})
+			joystick.addEventListener('touchEnd', function(){
+				console.log('up')
+			})
+			var prevX = 0;
+			var prevY = 0;
+			var newX = 0;
+			var newY = 0;
+			setInterval(function(){
+				var outputEl	= document.getElementById('result');
+				newX = Math.round(joystick.deltaX());
+				newY = Math.round(joystick.deltaY()) * -1;
+				outputEl.innerHTML	= '<b>Posicion:</b> '
+					+ ' X:'+newX
+					+ ' Y:'+newY;
+				if ( newX != prevX || newY != prevY ){
+					var xhr = new XMLHttpRequest();
+					xhr.open('PUT', "./jsData.html?x="+newX+"&y="+newY)
+					xhr.send();
+				}
+				prevX = newX;
+				prevY = newY;
+			}, 1/30 * 1000);
+		</script>
+    <br><br>
+
+    <!--Tabla de información de la conexión-->
+    <div>
+        <center>
+        <h1>Información de la conexión</h1> 
+        <div style='width: 90vw; transition: 1s;' class='ampliacion'>
+        <table class="styled-table">
+          <thead>
+          <tr><th style=' padding: 20px;'>IP Local</th><th style=' padding: 20px; '>Host Name</th><th style=' padding: 20px; '>Status</th><th style=' padding: 20px; '>SSID</th><th style=' padding: 20px; '>PSK</th><th style=' padding: 20px; '>BSSID</th><th style=' padding: 20px; '>RSSI</th></tr>
+          </thead>
+          <tr>
+          <td style='padding: 20px;text-align: center;'class='changecolor'>
+            %IP%  
+          </td>
+          <td style='padding: 20px;text-align: center;'class='changecolor'>
+            %HOSTNAME%
+          </td>
+          <td style='padding: 20px;text-align: center;'class='changecolor'>
+            %STATUS%
+          </td>
+          <td style='padding: 20px;text-align: center;'class='changecolor'>
+            %SSID%
+          </td>
+          <td style='padding: 20px;text-align: center;'class='changecolor'>
+            %PSK% 
+          </td>
+          <td style='padding: 20px;text-align: center;'class='changecolor'>
+            %BSSID%  
+          </td>
+          <td style='padding: 20px;text-align: center;'class='changecolor' id="valorRSSI">
+            %RSSI%
+          </td> 
+          </tr>
+        </table>
+      </div>
+      </center>
+    </div>
+    <br><br>
+
+    <!--Logo pinguino-->
+    <img id="piplup" src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/logo/piplup.png" alt="">
+    
+    <!--Pie de página-->
+    <footer>
+      @Copyright MYN 2022- All Right Reserved.
+    </footer>
+    <hr>
+    
+    <!-- Fotitos de los integrantes y su información -->
+    <center><h2>Integrantes:</h2></center>     
+    <div style="display: flex;">
+        <!-- Yamil -->
+        <div class="profile-card yamil" style="margin: 0 auto;">
+            <div class="img">
+                <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/fotos/yamilPFP.jpeg">
+            </div>
+            <div class="caption">
+                <h3>Yamil Barrientos</h3>
+                <p>Estudiante</p>
+            </div>
+        </div>
+        <!-- Mica -->
+        <div class="profile-card mica" style="margin: 0 auto;">
+            <div class="img">
+                <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/fotos/micaPFP.jpeg">
+            </div>
+            <div class="caption">
+                <h3>Micaela Gordillo</h3>
+                <p>Estudiante</p>
+            </div>
+        </div>
+        <!-- Nao -->
+        <div class="profile-card" style="margin: 0 auto;">
+            <div class="img">
+                <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/fotos/IMG_20210715_162333.jpg">
+            </div>
+            <div class="caption">
+                <h3>Naomi Tacachira</h3>
+                <p>Estudiante</p>
+            </div>
+        </div>
+    </div>
+    <!-- Espacios -->
+    <br><br><br><br>
+ 
+</body>
+</html>
