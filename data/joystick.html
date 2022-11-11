@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>LAB 11 | Brazo Robot</title>
+    <title>LAB 11-12 | Brazo Robot</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="index.css">
   </head>
-  <body>
+  <body translate="no" class="noselect" onload="init();">
     <!--Titulo y conexión WiFi-->
     <header>
       <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/logo/myn.png" alt="logo">
       <h1 style="z-index: 100; background-color:white;">
-         BRAZO ROBOT <img style="margin-top: -4px;" src="https://raw.githubusercontent.com/EllieT7/Lab11_Brazo/main/brazito.png" alt=""></h1>
+        BRAZO ROBOT <img style="margin-top: -4px;" src="https://raw.githubusercontent.com/EllieT7/Lab11_Brazo/main/brazito.png" alt=""></h1>
       <div id="contenedor" style="display: grid;position: absolute; top: 10px;right: 0; width: 200px;">
         <img id="imgPotencia" src="" alt="">
         <p id="valorPotencia">%RSSI%</p>
@@ -23,93 +23,64 @@
 
     <!--Menú de navegacion-->
     <div class="menu_superior" style="margin: 0px 60px;">
-        <nav>
-            <ul>
-                <li class="izquierda"><a href="index.html">Modo Test</a></li>
-                <li class="izquierda"><a href="manual.html">Modo Manual</a></li>
-                <li class="izquierda"><a href="automatico.html">Modo Automatico</a></li>
-                <li class="izquierda"><a href="joystick.html">Joystick</a></li>
-
-            </ul>
-        </nav>
-        <hr>
+      <nav>
+        <ul>
+          <li class="izquierda"><a href="index.html">Modo Test</a></li>
+          <li class="izquierda"><a href="manual.html">Modo Manual</a></li>
+          <li class="izquierda"><a href="automatico.html">Modo Automatico</a></li>
+          <li class="izquierda"><a href="joystick.html">Joystick</a></li>
+        </ul>
+      </nav>
+      <hr>
     </div>
     <div style="height: 25px;"></div>
 
     <!--Contenido-->
-    <div id="container" style="hei">
+    <center><h1>Virtual Joystick</h1></center>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div style="display: grid; grid-template-columns: 500px 500px;">
+        <div class="container space-top">
+          <h2>Servo 1 y 2</h2>
+          <div class="center-align">
+            <canvas id="joystick" height="300" width="300" style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
+          </div>
+          <p id="xVal" class="light">X: 0.515625</p>
+          <p id="yVal" class="light">Y: 83.984375</p>
+        </div>
+        <div class="container space-top">
+          <h2>Servo 3 y 4</h2>
+          <div class="center-align">
+            <canvas id="joystick2" height="300" width="300" style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
+          </div>
+          <p id="xVal2" class="light">X: 0.515625</p>
+          <p id="yVal2" class="light">Y: 83.984375</p>
+        </div>
+      </div>
     </div>
-    <script src="./virtualjoystick.js"></script>
-		<script>
-			console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
-	
-			var joystick	= new VirtualJoystick({
-				container	: document.getElementById('container'),
-				mouseSupport	: true,
-				limitStickTravel	: true,
-			});
-			joystick.addEventListener('touchStart', function(){
-				console.log('down')
-			})
-			joystick.addEventListener('touchEnd', function(){
-				console.log('up')
-			})
-			var prevX = 0;
-			var prevY = 0;
-			var newX = 0;
-			var newY = 0;
-			setInterval(function(){
-				var outputEl	= document.getElementById('result');
-				newX = Math.round(joystick.deltaX());
-				newY = Math.round(joystick.deltaY()) * -1;
-				outputEl.innerHTML	= '<b>Posicion:</b> '
-					+ ' X:'+newX
-					+ ' Y:'+newY;
-				if ( newX != prevX || newY != prevY ){
-					var xhr = new XMLHttpRequest();
-					xhr.open('PUT', "./jsData.html?x="+newX+"&y="+newY)
-					xhr.send();
-				}
-				prevX = newX;
-				prevY = newY;
-			}, 1/30 * 1000);
-		</script>
+    <div class="hiddendiv common"></div>
     <br><br>
+    <hr>
 
     <!--Tabla de información de la conexión-->
     <div>
-        <center>
+      <center>
         <h1>Información de la conexión</h1> 
         <div style='width: 90vw; transition: 1s;' class='ampliacion'>
-        <table class="styled-table">
-          <thead>
-          <tr><th style=' padding: 20px;'>IP Local</th><th style=' padding: 20px; '>Host Name</th><th style=' padding: 20px; '>Status</th><th style=' padding: 20px; '>SSID</th><th style=' padding: 20px; '>PSK</th><th style=' padding: 20px; '>BSSID</th><th style=' padding: 20px; '>RSSI</th></tr>
-          </thead>
-          <tr>
-          <td style='padding: 20px;text-align: center;'class='changecolor'>
-            %IP%  
-          </td>
-          <td style='padding: 20px;text-align: center;'class='changecolor'>
-            %HOSTNAME%
-          </td>
-          <td style='padding: 20px;text-align: center;'class='changecolor'>
-            %STATUS%
-          </td>
-          <td style='padding: 20px;text-align: center;'class='changecolor'>
-            %SSID%
-          </td>
-          <td style='padding: 20px;text-align: center;'class='changecolor'>
-            %PSK% 
-          </td>
-          <td style='padding: 20px;text-align: center;'class='changecolor'>
-            %BSSID%  
-          </td>
-          <td style='padding: 20px;text-align: center;'class='changecolor' id="valorRSSI">
-            %RSSI%
-          </td> 
-          </tr>
-        </table>
-      </div>
+          <table class="styled-table">
+            <thead>
+              <tr><th style=' padding: 20px;'>IP Local</th><th style=' padding: 20px; '>Host Name</th><th style=' padding: 20px; '>Status</th><th style=' padding: 20px; '>SSID</th><th style=' padding: 20px; '>PSK</th><th style=' padding: 20px; '>BSSID</th><th style=' padding: 20px; '>RSSI</th></tr>
+            </thead>
+            <tr>
+              <td style='padding: 20px;text-align: center;'class='changecolor'>%IP%</td>
+              <td style='padding: 20px;text-align: center;'class='changecolor'>%HOSTNAME%</td>
+              <td style='padding: 20px;text-align: center;'class='changecolor'>%STATUS%</td>
+              <td style='padding: 20px;text-align: center;'class='changecolor'>%SSID%</td>
+              <td style='padding: 20px;text-align: center;'class='changecolor'>%PSK%</td>
+              <td style='padding: 20px;text-align: center;'class='changecolor'>%BSSID%</td>
+              <td style='padding: 20px;text-align: center;'class='changecolor' id="valorRSSI">%RSSI%</td> 
+            </tr>
+          </table>
+        </div>
       </center>
     </div>
     <br><br>
@@ -126,39 +97,216 @@
     <!-- Fotitos de los integrantes y su información -->
     <center><h2>Integrantes:</h2></center>     
     <div style="display: flex;">
-        <!-- Yamil -->
-        <div class="profile-card yamil" style="margin: 0 auto;">
-            <div class="img">
-                <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/fotos/yamilPFP.jpeg">
-            </div>
-            <div class="caption">
-                <h3>Yamil Barrientos</h3>
-                <p>Estudiante</p>
-            </div>
+      <!-- Yamil -->
+      <div class="profile-card yamil" style="margin: 0 auto;">
+        <div class="img">
+          <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/fotos/yamilPFP.jpeg">
         </div>
-        <!-- Mica -->
-        <div class="profile-card mica" style="margin: 0 auto;">
-            <div class="img">
-                <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/fotos/micaPFP.jpeg">
-            </div>
-            <div class="caption">
-                <h3>Micaela Gordillo</h3>
-                <p>Estudiante</p>
-            </div>
+        <div class="caption">
+          <h3>Yamil Barrientos</h3>
+          <p>Estudiante</p>
         </div>
-        <!-- Nao -->
-        <div class="profile-card" style="margin: 0 auto;">
-            <div class="img">
-                <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/fotos/IMG_20210715_162333.jpg">
-            </div>
-            <div class="caption">
-                <h3>Naomi Tacachira</h3>
-                <p>Estudiante</p>
-            </div>
+      </div>
+      <!-- Mica -->
+      <div class="profile-card mica" style="margin: 0 auto;">
+        <div class="img">
+          <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/fotos/micaPFP.jpeg">
         </div>
+        <div class="caption">
+          <h3>Micaela Gordillo</h3>
+          <p>Estudiante</p>
+        </div>
+      </div>
+      <!-- Nao -->
+      <div class="profile-card" style="margin: 0 auto;">
+        <div class="img">
+          <img src="https://raw.githubusercontent.com/MicaelaGordillo/IOT_2/main/EjemploST_3/images/fotos/IMG_20210715_162333.jpg">
+        </div>
+        <div class="caption">
+          <h3>Naomi Tacachira</h3>
+          <p>Estudiante</p>
+        </div>
+      </div>
     </div>
     <!-- Espacios -->
     <br><br><br><br>
- 
-</body>
+    <script>
+      function updateTextInput(val, id) {
+        console.log(val);
+        document.getElementById('pwmInput'+id).value = val; 
+        document.getElementById('textInput'+id).value = val; 
+      }
+      //Función para cambiar la imagen en base a la conexión WiFi/
+      function actualizarPotencia(){
+        var valor = parseInt(document.getElementById("valorPotencia").innerText);
+        if (valor >= (-40)) {
+            document.getElementById("imgPotencia").src = "https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/intensidad_wifi/wifi4.png";
+        } else if (valor <(-40) && valor >= (-50)) {
+            document.getElementById("imgPotencia").src = "https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/intensidad_wifi/wifi3.png";
+        } else if (valor < (-50) && valor >= (-60)){
+            document.getElementById("imgPotencia").src = "https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/intensidad_wifi/wifi2.png";
+        } else if (valor < (-60)){
+            document.getElementById("imgPotencia").src = "https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/intensidad_wifi/wifi1.png";
+        }
+      }
+      //Función para pedir el valor de la conexión WiFi - cada 10 segundos/
+      setInterval(function ( ) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("valorPotencia").innerText = this.responseText;
+            document.getElementById("valorRSSI").innerText = this.responseText;
+            actualizarPotencia();
+          }
+        };
+        xhttp.open("GET", "/RSSI", true);
+        xhttp.send();
+      }, 10000);
+
+      function init() {
+        // easal stuff goes hur
+        var xCenter = 150;
+        var yCenter = 150;
+        var stage = new createjs.Stage('joystick');
+
+        var psp = new createjs.Shape();
+        psp.graphics.beginFill('#333333').drawCircle(xCenter, yCenter, 50);
+
+        psp.alpha = 0.25;
+
+        var vertical = new createjs.Shape();
+        var horizontal = new createjs.Shape();
+        vertical.graphics.beginFill('#ff4d4d').drawRect(150, 0, 2, 300);
+        horizontal.graphics.beginFill('#ff4d4d').drawRect(0, 150, 300, 2);
+
+        stage.addChild(psp);
+        stage.addChild(vertical);
+        stage.addChild(horizontal);
+        createjs.Ticker.framerate = 60;
+        createjs.Ticker.addEventListener('tick', stage);
+        stage.update();
+
+        var myElement = $('#joystick')[0];
+
+        // create a simple instance
+        // by default, it only adds horizontal recognizers
+        var mc = new Hammer(myElement);
+
+        mc.on("panstart", function (ev) {
+          var pos = $('#joystick').position();
+          xCenter = psp.x;
+          yCenter = psp.y;
+          psp.alpha = 0.5;
+
+          stage.update();
+        });
+
+        // listen to events...
+        mc.on("panmove", function (ev) {
+          var pos = $('#joystick').position();
+
+          var x = ev.center.x - pos.left - 150;
+          var y = ev.center.y - pos.top - 150;
+          $('#xVal').text('X: ' + x);
+          $('#yVal').text('Y: ' + -1 * y);
+
+          var coords = calculateCoords(ev.angle, ev.distance);
+
+          psp.x = coords.x;
+          psp.y = coords.y;
+
+          psp.alpha = 0.5;
+
+          stage.update();
+        });
+
+        mc.on("panend", function (ev) {
+          psp.alpha = 0.25;
+          createjs.Tween.get(psp).to({ x: xCenter, y: yCenter }, 750, createjs.Ease.elasticOut);
+        });
+        
+        init2();
+      }
+
+      function calculateCoords(angle, distance) {
+        var coords = {};
+        distance = Math.min(distance, 100);
+        var rads = angle * Math.PI / 180.0;
+
+        coords.x = distance * Math.cos(rads);
+        coords.y = distance * Math.sin(rads);
+
+        return coords;
+      }
+
+      function init2() {
+        // easal stuff goes hur
+        var xCenter = 150;
+        var yCenter = 150;
+        var stage = new createjs.Stage('joystick2');
+      
+        var psp = new createjs.Shape();
+        psp.graphics.beginFill('#333333').drawCircle(xCenter, yCenter, 50);
+      
+        psp.alpha = 0.25;
+      
+        var vertical = new createjs.Shape();
+        var horizontal = new createjs.Shape();
+        vertical.graphics.beginFill('#ff4d4d').drawRect(150, 0, 2, 300);
+        horizontal.graphics.beginFill('#ff4d4d').drawRect(0, 150, 300, 2);
+      
+        stage.addChild(psp);
+        stage.addChild(vertical);
+        stage.addChild(horizontal);
+        createjs.Ticker.framerate = 60;
+        createjs.Ticker.addEventListener('tick', stage);
+        stage.update();
+      
+        var myElement = $('#joystick2')[0];
+      
+        // create a simple instance
+        // by default, it only adds horizontal recognizers
+        var mc = new Hammer(myElement);
+      
+        mc.on("panstart", function (ev) {
+          var pos = $('#joystick2').position();
+          xCenter = psp.x;
+          yCenter = psp.y;
+          psp.alpha = 0.5;
+      
+          stage.update();
+        });
+      
+        // listen to events...
+        mc.on("panmove", function (ev) {
+          var pos = $('#joystick2').position();
+      
+          var x = ev.center.x - pos.left - 150;
+          var y = ev.center.y - pos.top - 150;
+          $('#xVal2').text('X: ' + x);
+          $('#yVal2').text('Y: ' + -1 * y);
+      
+          var coords = calculateCoords(ev.angle, ev.distance);
+      
+          psp.x = coords.x;
+          psp.y = coords.y;
+      
+          psp.alpha = 0.5;
+      
+          stage.update();
+        });
+      
+        mc.on("panend", function (ev) {
+          psp.alpha = 0.25;
+          createjs.Tween.get(psp).to({ x: xCenter, y: yCenter }, 750, createjs.Ease.elasticOut);
+        });
+      }
+      
+    </script>
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.js"></script>
+    <script src="https://hammerjs.github.io/dist/hammer.js"></script>
+    <script src="https://code.createjs.com/createjs-2015.11.26.combined.js"></script>    
+  </body>
 </html>

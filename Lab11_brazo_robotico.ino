@@ -81,6 +81,10 @@ void setup() {
     aux = 1;
     request->send(SPIFFS, "/automatico.html", String(), false, datos);
   });
+  server.on("/joystick.html", HTTP_GET, [](AsyncWebServerRequest * request) {
+    aux = 0;
+    request->send(SPIFFS, "/joystick.html", String(), false, datos);
+  });
   server.on("/index.css", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/index.css", "text/css");
   });
@@ -173,10 +177,10 @@ void setup() {
       contador = 0;
       secuencia[10];
       servo1[10]; servo2[10]; servo3[10]; servo4[10];
-      ledcWrite(PWM1_Ch1,  0);
-      ledcWrite(PWM1_Ch2,  0);
-      ledcWrite(PWM1_Ch3,  0);
-      ledcWrite(PWM1_Ch4,  0);
+      ledcWrite(PWM1_Ch1,  1638);
+      ledcWrite(PWM1_Ch2,  1638);
+      ledcWrite(PWM1_Ch3,  1638);
+      ledcWrite(PWM1_Ch4,  1638);
       request->redirect("/automatico.html");
   });
   
@@ -224,10 +228,10 @@ void loop() {
       } else {
         Serial.println("Ocurrio un error!");
       }
-      ledcWrite(PWM1_Ch1,  0);
-      ledcWrite(PWM1_Ch2,  0);
-      ledcWrite(PWM1_Ch3,  0);
-      ledcWrite(PWM1_Ch4,  0);
+      ledcWrite(PWM1_Ch1,  1638);
+      ledcWrite(PWM1_Ch2,  1638);
+      ledcWrite(PWM1_Ch3,  1638);
+      ledcWrite(PWM1_Ch4,  1638);
       delay(1000);
       Serial.print("Servo: ");
       Serial.print(secuencia[i]);
