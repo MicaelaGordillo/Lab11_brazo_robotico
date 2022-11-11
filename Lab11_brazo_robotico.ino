@@ -38,7 +38,7 @@ int servo4[10];
 AsyncWebServer server(80);
 //UDP un WiFi Serveru bibloteku instance
 WiFiUDP udp;
-WebServer server2(80);
+WebServer server2(8080);
 
 void handleJSData(){
   boolean yDir;

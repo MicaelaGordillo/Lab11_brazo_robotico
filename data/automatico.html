@@ -35,49 +35,62 @@
     </div>
     <div style="height: 25px;"></div>
 
+    <center>
+      <h1>Modo Automático</h1>
+    </center>
     <!--Contenido-->
-    <div style="display: grid; grid-template-columns: 24% 24%; padding: 5px; border: 1px rgb(255, 255, 255) solid;">
-      <div style="justify-content: center; align-items: center;">
-        <h2>Servo 1</h2>
-        <form action="/SLIDER6" method="post">
-          Slider:<br>
-              <img style="width: 80px;" src="https://raw.githubusercontent.com/EllieT7/Lab11_Brazo/main/servo.png" alt="">
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <div style="display: grid; grid-template-columns: 500px 500px; gap: 10px; padding: 10px; border: 1px rgb(255, 255, 255) solid;">
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <img style="width: 500px;" src="https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/brazo_robot/brazo.gif" alt="">
+        </div>
+        <div style="display: grid; grid-template-columns: 250px 250px;">
+          <div style="justify-content: center; align-items: center;">
+            <h2>Servo 1</h2>
+            <form action="/SLIDER6" method="post">
+              <img style="width: 80px;" src="https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/brazo_robot/servo.gif" alt="">
               <br><br>
-          <input type="range" id="pwmInput1" name="pwmValue1" min="1638" max="7864" value="%PWM1%" onchange="updateTextInput(this.value,1);" >
-          <input type="number" id="textInput1" onchange="updateTextInput(this.value,1);" value="%PWM1%" style="width:50px">
-          <label for="pwmInput1">PWM</label><br>
-          <button type="submit" value="Submit">Guardar</button>
-        </form>
-        <h2>Servo 2</h2>
-        <form action="/SLIDER7" method="post">
-          Slider:<br>
-              <img style="width: 80px;" src="https://raw.githubusercontent.com/EllieT7/Lab11_Brazo/main/servo.png" alt="">
+              <input type="range" id="pwmInput1" name="pwmValue1" min="1638" max="7864" value="%PWM1%" onchange="updateTextInput(this.value,1);" >
+              <input type="number" id="textInput1" onchange="updateTextInput(this.value,1);" value="%PWM1%" style="width:50px">
+              <label for="pwmInput1">PWM</label><br>
+              <button type="submit" value="Submit">Guardar</button>
+            </form>
+          </div>
+          <div style="justify-content: center; align-items: center;">
+            <h2>Servo 2</h2>
+            <form action="/SLIDER7" method="post">
+              <img style="width: 80px;" src="https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/brazo_robot/servo.gif" alt="">
               <br><br>
-          <input type="range" id="pwmInput2" name="pwmValue2" min="1638" max="7864" value="%PWM2%" onchange="updateTextInput(this.value,2);" >
-          <input type="number" id="textInput2" onchange="updateTextInput(this.value,2);" value="%PWM2%" style="width:50px">
-          <label for="pwmInput2">PWM</label><br>
-          <button type="submit" value="Submit">Guardar</button>
-        </form>
-        <h2>Servo 3</h2>
-        <form action="/SLIDER8" method="post">
-          Slider:<br>
-              <img style="width: 80px;" src="https://raw.githubusercontent.com/EllieT7/Lab11_Brazo/main/servo.png" alt="">
+              <input type="range" id="pwmInput2" name="pwmValue2" min="1638" max="7864" value="%PWM2%" onchange="updateTextInput(this.value,2);" >
+              <input type="number" id="textInput2" onchange="updateTextInput(this.value,2);" value="%PWM2%" style="width:50px">
+              <label for="pwmInput2">PWM</label><br>
+              <button type="submit" value="Submit">Guardar</button>
+            </form>
+          </div>
+          <div style="justify-content: center; align-items: center;">
+            <h2>Servo 3</h2>
+            <form action="/SLIDER8" method="post">
+              Slider:<br>
+                  <img style="width: 80px;" src="https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/brazo_robot/servo.gif" alt="">
+                  <br><br>
+              <input type="range" id="pwmInput3" name="pwmValue3" min="1638" max="7864" value="%PWM3%" onchange="updateTextInput(this.value,3);" >
+              <input type="number" id="textInput3" onchange="updateTextInput(this.value,3);" value="%PWM3%" style="width:50px">
+              <label for="pwmInput3">PWM</label><br>
+              <button type="submit" value="Submit">Guardar</button>
+            </form>
+          </div>
+          <div style="justify-content: center; align-items: center;">
+            <h2>Servo 4</h2>
+            <form action="/SLIDER9" method="post">
+              <img style="width: 80px;" src="https://raw.githubusercontent.com/MicaelaGordillo/images_IoT/main/brazo_robot/servo.gif" alt="">
               <br><br>
-          <input type="range" id="pwmInput3" name="pwmValue3" min="1638" max="7864" value="%PWM3%" onchange="updateTextInput(this.value,3);" >
-          <input type="number" id="textInput3" onchange="updateTextInput(this.value,3);" value="%PWM3%" style="width:50px">
-          <label for="pwmInput3">PWM</label><br>
-          <button type="submit" value="Submit">Guardar</button>
-        </form>
-        <h2>Servo 4</h2>
-        <form action="/SLIDER9" method="post">
-          Slider:<br>
-              <img style="width: 80px;" src="https://raw.githubusercontent.com/EllieT7/Lab11_Brazo/main/servo.png" alt="">
-              <br><br>
-          <input type="range" id="pwmInput4" name="pwmValue4" min="1638" max="7864" value="%PWM4%" onchange="updateTextInput(this.value,4);" >
-          <input type="number" id="textInput4" onchange="updateTextInput(this.value,4);" value="%PWM4%" style="width:50px">
-          <label for="pwmInput4">PWM</label><br>
-          <button type="submit" value="Submit">Guardar</button>
-        </form>
+              <input type="range" id="pwmInput4" name="pwmValue4" min="1638" max="7864" value="%PWM4%" onchange="updateTextInput(this.value,4);" >
+              <input type="number" id="textInput4" onchange="updateTextInput(this.value,4);" value="%PWM4%" style="width:50px">
+              <label for="pwmInput4">PWM</label><br>
+              <button type="submit" value="Submit">Guardar</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
     <br>
