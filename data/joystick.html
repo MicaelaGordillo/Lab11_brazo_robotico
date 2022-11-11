@@ -163,6 +163,12 @@
         xhttp.send();
       }, 10000);
 
+
+      var valorX1=0;
+      var valorX2 =0;
+      var valorY1=0;
+      var valorY2 =0;
+      
       function init() {
         // easal stuff goes hur
         var xCenter = 150;
@@ -210,6 +216,9 @@
           $('#xVal').text('X: ' + x);
           $('#yVal').text('Y: ' + -1 * y);
 
+          valorX1 = x;
+          valorY1 = y;
+
           var coords = calculateCoords(ev.angle, ev.distance);
 
           psp.x = coords.x;
@@ -238,6 +247,9 @@
 
         return coords;
       }
+
+      
+
 
       function init2() {
         // easal stuff goes hur
@@ -285,7 +297,10 @@
           var y = ev.center.y - pos.top - 150;
           $('#xVal2').text('X: ' + x);
           $('#yVal2').text('Y: ' + -1 * y);
-      
+          
+          valorX2 = x;
+          valorY2 = y;
+          
           var coords = calculateCoords(ev.angle, ev.distance);
       
           psp.x = coords.x;
@@ -300,6 +315,34 @@
           psp.alpha = 0.25;
           createjs.Tween.get(psp).to({ x: xCenter, y: yCenter }, 750, createjs.Ease.elasticOut);
         });
+
+
+        //Solicitud PUT
+        var prevX = 0;
+        var prevY = 0;
+        var newX = 0;
+        var newY = 0;
+        var prevX2 = 0;
+        var prevY2 = 0;
+        var newX2 = 0;
+        var newY2 = 0;
+        setInterval(function(){
+          newX = valorX1;
+          newY = valorY1;
+          newX2 = valorX2;
+          newY2 = valorY2;
+          
+          if ( newX != prevX || newY != prevY || newX2 != prevX2 || newY2 != prevY2 ){
+            var xhr = new XMLHttpRequest();
+            xhr.open('PUT', "./jsData.html?x1="+newX+"&y1="+newY+"&x2="+newX2+"&y2="+newY2)
+            xhr.send();
+          }
+          prevX = newX;
+          prevY = newY;
+          prevX2 = newX2;
+          prevY2 = newY2;
+          
+        }, 1/30 * 1000);
       }
       
     </script>

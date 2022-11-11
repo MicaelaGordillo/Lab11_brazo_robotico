@@ -1,18 +1,26 @@
 // Importamos las librerías
-#include <WiFi.h>
+#include <WebServer.h>
 #include <ESPAsyncWebServer.h>
+#include <AsyncTCP.h>
+#include <stdio.h>
+#include <SPI.h>
+#include <WiFi.h>
+#include <WiFiUdp.h>
 #include "SPIFFS.h"
 
 #include "config.h"
  // Valores ajustados para el SG90
 #define COUNT_LOW 1638
-#define COUNT_HIGH 7864
+#define COUNT_HIGH 7000
 #define TIMER_WIDTH 16
 #define PWM1_Ch1    1
 #define PWM1_Ch2    2
 #define PWM1_Ch3    3
 #define PWM1_Ch4    4
 String pwmValue1, pwmValue2, pwmValue3, pwmValue4;
+int x1, x2, y, y2;
+// int aSpeed,bSpeed,cSpeed;
+int joyX1, joyY1, joyX2, joyY2;
 // Contadores
 int aux = 0; //Para saber si el modo automatico esta activo o no.
 int contador = 0; //Vector secuencia
@@ -28,6 +36,40 @@ int servo3[10];
 int servo4[10];
 
 AsyncWebServer server(80);
+//UDP un WiFi Serveru bibloteku instance
+WiFiUDP udp;
+WebServer server2(80);
+
+void handleJSData(){
+  boolean yDir;
+  x1 = server2.arg(0).toInt() * 10;
+  y = server2.arg(1).toInt() * 10;
+  x2 = server2.arg(2).toInt() * 10;
+  y2 = server2.arg(3).toInt() * 10;
+
+  joyX1 = (((x1/10)*(COUNT_HIGH/2))/100)+3932+1000;
+  joyY1 = (((y/10)*(COUNT_HIGH/2))/100)+3932+1000;
+  joyX2 = (((x2/10)*(COUNT_HIGH/2))/100)+3932+1000;
+  joyY2 = (((y2/10)*(COUNT_HIGH/2))/100)+3932+1000;
+
+  Serial.print("X1 = ");Serial.println(x1/10);
+  Serial.print("Y1 = ");Serial.println(y/10); 
+  Serial.print("X2 = ");Serial.println(x2/10);
+  Serial.print("Y2 = ");Serial.println(y2/10); 
+
+  Serial.print("joyX1 = ");Serial.println(joyX1);
+  Serial.print("joyY1 = ");Serial.println(joyY1);
+  Serial.print("joyX2 = ");Serial.println(joyX2);
+  Serial.print("joyY2 = ");Serial.println(joyY2);
+  
+  ledcWrite(PWM1_Ch1, joyX1);  
+  ledcWrite(PWM1_Ch2, joyY1);
+  ledcWrite(PWM1_Ch3, joyX2);  
+  ledcWrite(PWM1_Ch4, joyY2);
+  
+  server2.send(200, "text/plain", "");   
+}
+
 
 String getRSSI(){
   return String(WiFi.RSSI());
@@ -183,8 +225,9 @@ void setup() {
       ledcWrite(PWM1_Ch4,  1638);
       request->redirect("/automatico.html");
   });
-  
+  server2.on("/jsData.html", handleJSData);  
   server.begin();
+  server2.begin();
 }
 
 String datos(const String& var) {
